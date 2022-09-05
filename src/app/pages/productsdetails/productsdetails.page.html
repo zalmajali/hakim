@@ -1,0 +1,202 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar class="headerToolbar">
+    <ion-title>
+         <ion-grid style="padding:0px">
+            <ion-row>
+                <ion-col class="textAlignStart padding0" size="6">
+                    <img src="../../assets/imgs/def4.png" style="width:40px;border-radius:50px;text-align:start;">
+                </ion-col>
+                <ion-col class="textAlignEnd padding0" size="6" (click)="backToStore()">
+                  <ion-img src="../../assets/imgs/back.png" class="width35" style="float:left"></ion-img>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+    </ion-title>
+     <ion-item lines="none" class="searchItem">
+        <ion-input placeholder="بحث" (ionFocus)="openSearchPage()"></ion-input>
+    <ion-button class="button" (click)="openSearchPage()">
+    <ion-icon name="search" class="searchButon" slot="icon-only"></ion-icon>
+    </ion-button>
+  </ion-item>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+ <div class="contentDiv">
+     <div class="subContentDiv">
+         <div>
+         	<div *ngIf="showSlider == 0"><img src="{{returnProductsInformationImage}}" style="min-height:170px"></div>
+            <ion-slides *ngIf="showSlider == 1 && !offersHomeSkeleton"  pager="true" autoPlay="true" loop="true" (ionSlidesDidLoad)="slidesDidLoad()" (ionSlideDidChange)="slidesDidLoad()"  #slidesOffersHome >
+                <ion-slide>
+                    <div><img src="{{returnProductsInformationStoreImage}}" style="min-height:170px"></div>
+                </ion-slide>
+                 <ion-slide *ngFor="let items of returnProductsImage" >
+                    <div><img src="{{items.valuesFields}}" style="min-height:170px"></div>
+                </ion-slide>
+            </ion-slides> 
+         </div>
+         <div>
+            <ion-grid *ngIf="!productsSkeleton">
+                <ion-row>
+                    <ion-col class="textAlignStart textInformationNamePro" size="6">
+                    	{{returnProductsInformationTitle}}
+                    </ion-col>
+                    <ion-col class="textAlignEnd textInformation" size="6">
+                        <div class="typeMony">د.أ</div>
+                        <div class="newPrice" *ngIf="returnProductsInformationOfferPrice==0">{{realPrice}}</div>
+                        <div class="newPrice" *ngIf="returnProductsInformationOfferPrice!=0">{{oldPrice}}</div>
+                    	<div class="oldPrice" *ngIf="returnProductsInformationOfferPrice!=0">{{realPrice}}</div>
+                    </ion-col>
+                </ion-row>
+                <ion-row>
+                    <ion-col class="textAlignStart textjustify">{{returnProductsInformationDescription}}</ion-col>
+                </ion-row>
+            </ion-grid>
+            <ion-grid *ngIf="productsSkeleton">
+            	<ion-row>
+                    <ion-col class="textAlignStart textInformation" size="6">
+                    	<ion-skeleton-text animated style="height:20px;"></ion-skeleton-text>
+                    </ion-col>
+                    <ion-col class="textAlignEnd textInformation" size="6">
+                       <ion-skeleton-text animated style="height:20px;"></ion-skeleton-text>
+                    </ion-col>
+                </ion-row>
+                <ion-row>
+                    <ion-col class="textAlignStart textjustify"><ion-skeleton-text animated style="height:100px"></ion-skeleton-text></ion-col>
+                </ion-row>
+            </ion-grid>
+        </div>
+         <div>
+         	<ion-card style="background-color:#ffffff;">
+              <ion-card-header *ngIf="!productsSkeleton">
+                <ion-card-subtitle class="textInIngredients">مكونات المنتج</ion-card-subtitle>
+              </ion-card-header>
+              <ion-card-header *ngIf="productsSkeleton">
+                <ion-skeleton-text animated style="height:20px;"></ion-skeleton-text>
+              </ion-card-header>
+              <ion-card-content *ngIf="!productsSkeleton">
+                <ion-item class="cardItem" lines="none" *ngFor="let items of returnIngredientsArray; let i=index">
+                    <ion-label>{{items.title}}</ion-label>
+                    <ion-checkbox slot="start" value="{{items}}" mode="md" (ionChange)="getTheIngredients($event,i)"></ion-checkbox>
+                </ion-item>
+              </ion-card-content>
+               <ion-card-content *ngIf="productsSkeleton">
+                <ion-item lines="none" class="cardItem" *ngFor="let items of returnIngredientsArray; let i=index">
+                    <ion-skeleton-text animated style="height:20px;"></ion-skeleton-text>
+                </ion-item>
+              </ion-card-content>
+            </ion-card>
+         </div>
+         <div *ngFor="let items of returnOptionsArray; let i=index">
+         	<ion-card style="background-color:#ffffff;">
+              <ion-card-header *ngIf="!productsSkeleton">
+                <ion-card-subtitle class="textInIngredients">{{items.catName}}</ion-card-subtitle>
+              </ion-card-header>
+              <ion-card-header *ngIf="productsSkeleton">
+                <ion-skeleton-text animated style="height:20px;"></ion-skeleton-text>
+              </ion-card-header>
+              <ion-card-content *ngIf="!productsSkeleton">
+              <ion-radio-group (ionChange)="getTheOptions($event,i)">
+                <ion-item class="cardItem" lines="none" *ngFor="let itemsOptions of items.options; let j=index">
+                    <ion-label>{{itemsOptions.title}}</ion-label>
+                    <ion-radio slot="start" id="radioPro" mode="ios" value="{{j}}"></ion-radio>
+                </ion-item>
+              </ion-radio-group>
+              </ion-card-content>
+               <ion-card-content *ngIf="productsSkeleton">
+                <ion-item lines="none" class="cardItem" *ngFor="let itemsOptions of items.options; let j=index">
+                    <ion-skeleton-text animated style="height:20px;"></ion-skeleton-text>
+                </ion-item>
+              </ion-card-content>
+            </ion-card>
+         </div>   
+         <div *ngFor="let items of returnAdditionsArray; let i=index">
+         	<ion-card style="background-color:#ffffff;">
+              <ion-card-header *ngIf="!productsSkeleton">
+                <ion-card-subtitle class="textInIngredients">{{items.catName}}</ion-card-subtitle>
+              </ion-card-header>
+              <ion-card-header *ngIf="productsSkeleton">
+                <ion-skeleton-text animated style="height:20px;"></ion-skeleton-text>
+              </ion-card-header>
+              <ion-card-content *ngIf="!productsSkeleton">
+                <ion-item class="cardItem" lines="none" *ngFor="let itemsAdditions of items.additions; let j=index">
+                     <div class="divLabeladdishions">
+                    	<div class="divLabelLabeladdishions"> {{itemsAdditions.title}} </div>
+    					<div class="divLabelPriceaddishions">{{itemsAdditions.price}} د.أ</div>
+                     </div>
+                    <ion-checkbox slot="start" value="{{itemsAdditions.id}}" mode="md" (ionChange)="getTheAdditions($event,i,j)"></ion-checkbox>
+                </ion-item>
+              </ion-card-content>
+               <ion-card-content *ngIf="productsSkeleton">
+                <ion-item lines="none" class="cardItem" *ngFor="let itemsAdditions of items.additions; let j=index">
+                    <ion-skeleton-text animated style="height:20px;"></ion-skeleton-text>
+                </ion-item>
+              </ion-card-content>
+            </ion-card>
+         </div>
+         <div>
+          <ion-grid>
+            <ion-row>
+         	<ion-col *ngFor="let items of returnProductsSelectAndTex; let i=index" class="textAlignStart textInformation" size="4">
+                <ion-card style="background-color:#ffffff;">
+                  <ion-card-header *ngIf="!productsSkeleton" class="anatherField">
+                    <ion-card-subtitle class="textAnatherField">{{items.title}}</ion-card-subtitle>
+                  </ion-card-header>
+                  <ion-card-header  class="anatherField" *ngIf="productsSkeleton">
+                    <ion-skeleton-text animated style="height:20px;"></ion-skeleton-text>
+                  </ion-card-header>
+                  <ion-card-content *ngIf="!productsSkeleton" class="textAlignCenter paddingTop8" style="padding-inline-start: 15px !important;">
+                   	{{items.valuesFields}}
+                  </ion-card-content>
+                   <ion-card-content *ngIf="productsSkeleton" class="textAlignCenter paddingTop8" style="padding-inline-start: 15px !important;">
+                   <ion-skeleton-text animated style="height:20px;"></ion-skeleton-text>
+                  </ion-card-content>
+                </ion-card>
+            </ion-col>
+             </ion-row>
+            </ion-grid>
+         </div>
+         <div *ngFor="let items of returnProductsLongTex; let i=index">
+          <ion-grid>
+            <ion-row>
+         	<ion-col class="textAlignStart textInformation" size="12">
+                <ion-card style="background-color:#ffffff;">
+                  <ion-card-header *ngIf="!productsSkeleton" class="anatherField">
+                    <ion-card-subtitle class="textAnatherField">{{items.title}}</ion-card-subtitle>
+                  </ion-card-header>
+                  <ion-card-header  class="anatherField" *ngIf="productsSkeleton">
+                    <ion-skeleton-text animated style="height:20px;"></ion-skeleton-text>
+                  </ion-card-header>
+                  <ion-card-content *ngIf="!productsSkeleton" class="textAlignCenter paddingTop8" style="padding-inline-start: 15px !important;">
+                   	{{items.valuesFields}}
+                  </ion-card-content>
+                   <ion-card-content *ngIf="productsSkeleton" class="textAlignCenter paddingTop8" style="padding-inline-start: 15px !important;">
+                   <ion-skeleton-text animated style="height:20px;"></ion-skeleton-text>
+                  </ion-card-content>
+                </ion-card>
+            </ion-col>
+             </ion-row>
+            </ion-grid>
+         </div>
+     </div>
+  </div>
+  	
+</ion-content>
+<ion-footer class="ion-no-border">
+<ion-toolbar class="footerToolbar">
+    <div class="width100">
+        <div class="menueClass" (click)="functionGoToHome()">
+        	<div><ion-icon name="home" slot="start"></ion-icon></div>
+            <div class="labelClass">الرئيسية</div>
+        </div>
+           <div class="menueClass" (click)="functionGoToStores()">
+        	<div><ion-icon name="storefront" slot="start"></ion-icon></div>
+            <div class="labelClass">العيادات</div>
+        </div>
+        
+        <div class="menueClass" (click)="functionOpenMenue()">
+        	<div><ion-icon name="list" slot="start"></ion-icon></div>
+            <div class="labelClass">قائمتي</div>
+        </div>
+    </div>
+</ion-toolbar>
+</ion-footer>

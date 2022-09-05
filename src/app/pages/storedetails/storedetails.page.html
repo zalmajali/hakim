@@ -1,0 +1,467 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar class="headerToolbar">
+    <ion-title>
+    	<ion-grid style="padding:0px">
+            <ion-row>
+                <ion-col class="textAlignStart padding0" size="6">
+                    <img src="../../assets/imgs/def4.png" style="width:40px;border-radius:50px;text-align:start;">
+                </ion-col>
+                <ion-col class="textAlignEnd padding0" size="6" (click)="backToStores()">
+                  <ion-img src="../../assets/imgs/back.png" class="width35" style="float:left"></ion-img>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+    </ion-title>
+     <ion-item lines="none">
+        <ion-input placeholder="بحث" (ionFocus)="openSearchPage()"></ion-input>
+    <ion-button class="button" (click)="openSearchPage()">
+    <ion-icon name="search" class="searchButon" slot="icon-only"></ion-icon>
+    </ion-button>
+  </ion-item>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+ <div class="contentDiv">
+     <div class="subContentDiv">
+     	<div style="position:relative" *ngIf="!storesInformationSkeleton">
+        	<div><img src="{{returnStoresInformationImage}}" class="smallImage"></div>
+            <div><img src="{{returnStoresInformationStoreImage}}" class="largImage"></div>
+            <div class="storeName">{{returnStoresInformationTitle}}</div>
+            <div class="storeIcones">
+<!--                <ion-icon name="call" class="callIcon" (click)="callStoreNumber(returnStoresInformationMobile)"></ion-icon>
+                <ion-icon name="location" class="locationIcon" *ngIf="returnStoresInformationLatlang" (click)="getLocationMap(returnStoresInformationLatlang)"></ion-icon>
+-->                <ion-icon name="heart" class="hardNotFavIcon" *ngIf="showLinkFavourite==1 && isStoreInFaverate==0" (click)="functionAddFavorites(returnStoresInformationId,realFollowers)"></ion-icon>
+                <ion-icon name="heart" class="hardFavIcon" *ngIf="showLinkFavourite==1  && isStoreInFaverate==1" (click)="functionRemoveFavorites(returnStoresInformationId,realFollowers)"></ion-icon>
+            </div>
+        </div>
+        <div style="position:relative" *ngIf="storesInformationSkeleton">
+            <div><ion-skeleton-text animated class="smallSkeletonImage"></ion-skeleton-text></div>
+            <div><img src="../../assets/imgs/def3.png" class="largImage"></div>
+            <div><ion-skeleton-text animated class="storeSkeletonName"></ion-skeleton-text></div>
+        </div>
+        <div>
+            <ion-grid *ngIf="!storesInformationSkeleton">
+                <ion-row>
+                    <ion-col class="textAlignStart textjustify" size="9">
+                    {{returnStoresInformationDescription}}
+                    </ion-col>
+                    <ion-col class="textAlignEnd textInformation" size="3"><ion-icon name="heart" class="numFavIcon"></ion-icon><span class="countOfFav">{{returnStoresInformationFollowers}}</span></ion-col>
+                </ion-row>
+                 <ion-row>
+                    <ion-col class="textAlignStart textInformation" style="direction:rtl; margin-top:10px;font-size:11px;font-weight:bold" size="9"></ion-col>
+                	<ion-col class="textAlignEnd textInformation" style="direction:rtl; margin-top:10px;font-size:11px;font-weight:bold" size="3">المدينة: {{returnStoresInformationRegion}}</ion-col>
+                </ion-row>
+            </ion-grid>
+            <ion-grid *ngIf="storesInformationSkeleton">
+                <ion-row>
+                    <ion-col class="textAlignStart textjustify" size="9">
+                        <ion-skeleton-text animated style="height:100px"></ion-skeleton-text>
+                    </ion-col>
+                    <ion-col class="textAlignEnd textInformation" size="3"><ion-skeleton-text animated style="height:20px;margin-top: 9px;"></ion-skeleton-text></ion-col>
+                </ion-row>
+                <ion-row>
+                    <ion-col class="textAlignStart textInformation" size="6"><ion-skeleton-text animated style="height:20px;width:95%"></ion-skeleton-text></ion-col>
+                    <ion-col class="textAlignEnd textInformation" size="6"><ion-skeleton-text animated style="height:20px;width:95%"></ion-skeleton-text></ion-col>
+                </ion-row>
+                <ion-row>
+                    <ion-col class="textAlignStart textInformation" style="direction:rtl; margin-top:10px" size="9"><ion-skeleton-text animated style="height:20px;width:95%"></ion-skeleton-text></ion-col>
+                    <ion-col class="textAlignEnd textInformation" style="direction:rtl; margin-top:10px" size="3"><ion-skeleton-text animated style="height:20px;width:95%"></ion-skeleton-text></ion-col>
+                </ion-row>
+                <ion-row *ngIf="returnStoresInformationDeliveryAnotherPrices!=0 && returnStoresInformationDeliveryAnotherTime!=0">
+                    <ion-col class="textAlignStart textInformation" style="direction:rtl; margin-top:10px" size="9"><ion-skeleton-text animated style="height:20px;width:95%"></ion-skeleton-text></ion-col>
+                    <ion-col class="textAlignEnd textInformation" style="direction:rtl; margin-top:10px" size="3"><ion-skeleton-text animated style="height:20px;width:95%"></ion-skeleton-text></ion-col>
+                </ion-row>
+            </ion-grid>
+        </div>
+    <div style="padding-right:10px;padding-left:10px">
+    	<div class="textAlignStart" style="font-size:16px;color:#7d8389">
+        	المواعيد
+        </div>
+        <div>
+            <ion-grid>
+             <ion-row>
+                <ion-col class="textAlignStart" style="font-size:14px;color:#7d8389" size="12">
+                    السبت
+                </ion-col>
+            </ion-row>
+             <ion-row>
+                <ion-col class="textAlignCenter" style="font-size:13px;color:#7d8389" *ngFor="let items of returnAllF1DatesArray" size="4">
+                    <div *ngIf = "items.from && items.to && items.view == 1" (click)="reservationSend(items.id)" style="color:green">{{items.from}} - {{items.to}}</div>
+                    <div *ngIf = "items.from && items.to  && items.view == 0"  style="color:red">{{items.from}} - {{items.to}}</div>
+                </ion-col>
+            </ion-row>
+            </ion-grid>
+            
+             <ion-grid>
+             <ion-row>
+                <ion-col class="textAlignStart" style="font-size:14px;color:#7d8389" size="12">
+                    الاحد
+                </ion-col>
+            </ion-row>
+             <ion-row>
+                <ion-col class="textAlignCenter" style="font-size:13px;color:#7d8389" *ngFor="let items of returnAllF2DatesArray" size="4">
+                    <div *ngIf = "items.from && items.to && items.view == 1" (click)="reservationSend(items.id)" style="color:green">{{items.from}} - {{items.to}}</div>
+                    <div *ngIf = "items.from && items.to  && items.view == 0"  style="color:red">{{items.from}} - {{items.to}}</div>
+                </ion-col>
+            </ion-row>
+            </ion-grid>
+            
+            <ion-grid>
+             <ion-row>
+                <ion-col class="textAlignStart" style="font-size:14px;color:#7d8389" size="12">
+                    الاثنين
+                </ion-col>
+            </ion-row>
+             <ion-row>
+                <ion-col class="textAlignCenter" style="font-size:13px;color:#7d8389" *ngFor="let items of returnAllF3DatesArray" size="4">
+                    <div *ngIf = "items.from && items.to && items.view == 1" (click)="reservationSend(items.id)" style="color:green">{{items.from}} - {{items.to}}</div>
+                    <div *ngIf = "items.from && items.to  && items.view == 0"  style="color:red">{{items.from}} - {{items.to}}</div>
+                </ion-col>
+            </ion-row>
+            </ion-grid>
+            
+            <ion-grid>
+             <ion-row>
+                <ion-col class="textAlignStart" style="font-size:14px;color:#7d8389" size="12">
+                    الثلاثاء
+                </ion-col>
+            </ion-row>
+             <ion-row>
+                <ion-col class="textAlignCenter" style="font-size:13px;color:#7d8389" *ngFor="let items of returnAllF4DatesArray" size="4">
+                    <div *ngIf = "items.from && items.to && items.view == 1" (click)="reservationSend(items.id)" style="color:green">{{items.from}} - {{items.to}}</div>
+                    <div *ngIf = "items.from && items.to  && items.view == 0"  style="color:red">{{items.from}} - {{items.to}}</div>
+                </ion-col>
+            </ion-row>
+            </ion-grid>
+            
+            <ion-grid>
+             <ion-row>
+                <ion-col class="textAlignStart" style="font-size:14px;color:#7d8389" size="12">
+                    الاربعاء
+                </ion-col>
+            </ion-row>
+             <ion-row>
+                <ion-col class="textAlignCenter" style="font-size:13px;color:#7d8389" *ngFor="let items of returnAllF5DatesArray" size="4">
+                    <div *ngIf = "items.from && items.to && items.view == 1" (click)="reservationSend(items.id)" style="color:green">{{items.from}} - {{items.to}}</div>
+                    <div *ngIf = "items.from && items.to  && items.view == 0"  style="color:red">{{items.from}} - {{items.to}}</div>
+                </ion-col>
+            </ion-row>
+            </ion-grid>
+            
+            <ion-grid>
+             <ion-row>
+                <ion-col class="textAlignStart" style="font-size:14px;color:#7d8389" size="12">
+                    الخميس
+                </ion-col>
+            </ion-row>
+             <ion-row>
+                <ion-col class="textAlignCenter" style="font-size:13px;color:#7d8389" *ngFor="let items of returnAllF6DatesArray" size="4">
+                    <div *ngIf = "items.from && items.to && items.view == 1" (click)="reservationSend(items.id)" style="color:green">{{items.from}} - {{items.to}}</div>
+                    <div *ngIf = "items.from && items.to  && items.view == 0"  style="color:red">{{items.from}} - {{items.to}}</div>
+                </ion-col>
+            </ion-row>
+            </ion-grid>
+            
+            <ion-grid>
+             <ion-row>
+                <ion-col class="textAlignStart" style="font-size:14px;color:#7d8389" size="12">
+                    الجمعة
+                </ion-col>
+            </ion-row>
+             <ion-row>
+                <ion-col class="textAlignCenter" style="font-size:13px;color:#7d8389" *ngFor="let items of returnAllF7DatesArray" size="4">
+                    <div *ngIf = "items.from && items.to && items.view == 1" (click)="reservationSend(items.id)" style="color:green">{{items.from}} - {{items.to}}</div>
+                    <div *ngIf = "items.from && items.to  && items.view == 0"  style="color:red">{{items.from}} - {{items.to}}</div>
+                </ion-col>
+            </ion-row>
+            </ion-grid>
+            
+        </div>
+     </div>
+        <div *ngIf="productsByStore==1 || offersByStore==1 || branchesByStore==1">
+            <ion-segment value="{{segmentValues}}" mode="md"  (ionChange)="segmentChanged($event)">
+                <ion-segment-button value="1" *ngIf="productsByStore==1">
+                	<ion-label>المنتجات</ion-label>
+                </ion-segment-button>
+                <ion-segment-button value="2" *ngIf="offersByStore==1">
+                	<ion-label>العروض اليومية</ion-label>
+                </ion-segment-button>
+                <ion-segment-button value="3" *ngIf="branchesByStore==1">
+                	<ion-label>العيادات الفرعية</ion-label>
+                </ion-segment-button>
+            </ion-segment>
+        </div>
+        <div [ngSwitch]="selectSegment">
+        	<ion-list *ngSwitchCase="'2'" class="padding0" style="background-color:#ffffff">
+            	<div *ngIf="!storesOffersByStoreSkeleton">
+                    <ion-grid class="gridDepartInformation">
+                        <ion-row>
+                            <ion-col class="textAlignStart textDepartInformation" style="direction:rtl" size="6">
+                                العروض: {{countOfOffers}}
+                            </ion-col>
+                            <ion-col class="textAlignEnd textDepartInformation" size="6"><span class="buttonFilterBorder"></span><ion-icon name="swap-vertical-outline" class="filterIcon" (click)="functionSortAndFilter('offers',2,lastOfferSortSelect)"></ion-icon></ion-col>
+                        </ion-row>
+                    </ion-grid>
+                </div>
+                <div *ngIf="storesOffersByStoreSkeleton">
+                    <ion-grid class="gridDepartInformation">
+                        <ion-row>
+                            <ion-col class="textAlignStart textDepartInformation" size="6"><ion-skeleton-text animated style="height:15px;width: 80px;"></ion-skeleton-text></ion-col>
+                            <ion-col class="textAlignEnd textDepartInformation" size="6"><span class="buttonFilterBorder"></span><ion-icon name="swap-vertical-outline" class="filterIcon"></ion-icon></ion-col>
+                        </ion-row>
+                    </ion-grid>
+                </div>
+            	<div>
+                    <div *ngIf="!storesOffersByStoreSkeleton">
+                        <div class="padding5" *ngFor="let items of returnOffersByStoreArray ; let i=index">
+                         <div class="offersDiv" *ngIf="items.type == 2" (click)="functionOffersInformation(items.id)">
+                            <div><img src="{{items.image}}"class="offersImage"></div>
+                            <div class="offersContent">{{items.description}}</div>
+                        </div>
+                        <div *ngIf="items.type==1" (click)="functionOffersInformation(items.id)">
+                            <div><img src="{{items.image}}"class="offersImage"></div>
+                        </div>
+                        <div>
+                            <ion-grid class="gridInformation">
+                                <ion-row>
+                                    <ion-col class="textAlignStart textNameInformation" size="6">{{items.title}}</ion-col>
+                                    <ion-col class="textAlignEnd textInformation" size="6" style="direction:rtl"><span class="offerTime">باقي للعرض {{items.duration}} ايام</span></ion-col>
+                                </ion-row>
+                            </ion-grid>
+                        </div>
+                        </div>
+                    </div>
+                    <div *ngIf="storesOffersByStoreSkeleton">
+                        <div class="padding5" *ngFor="let items of returnOffersByStoreArray; let i=index">
+                            <div><img src="../../assets/imgs/def3.png"></div>
+                            <div>
+                             <ion-grid class="gridInformation">
+                                <ion-row>
+                                    <ion-col class="textAlignStart textNameInformation" size="6"><ion-skeleton-text animated style="height:15px;width: 80px;"></ion-skeleton-text></ion-col>
+                                    <ion-col class="textAlignEnd textInformation" size="6"><ion-skeleton-text animated class="offerSkeletonTime"></ion-skeleton-text></ion-col>
+                                </ion-row>
+                            </ion-grid>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div *ngIf="countOfOffers==0" class="divEmptyVal">
+                    <div>
+                    	<img src="../../assets/imgs/noOffer.png" style="width:100px; height:100px">
+                    </div>
+                    <div class="emptyFirstText">
+                    	يوجد مشكلة في عرض البيانات
+                    </div>
+                    <div class="emptyLastText">
+                    	لم يتم إضافة اي بيانات على هذه الشاشة حاليا
+                    </div>
+                </div>
+            </ion-list>
+            <ion-list *ngSwitchCase="'1'" class="padding0" style="background-color:#ffffff">
+            	<div *ngIf="!storesProductsByStoreSkeleton">
+                        <ion-grid class="gridDepartInformation">
+                            <ion-row>
+                                <ion-col class="textAlignStart textDepartInformation" style="direction:rtl" size="6">
+                                    المنتجات: {{countOfProducts}}
+                                </ion-col>
+                                <ion-col class="textAlignEnd textDepartInformation" size="6"><span class="buttonFilterBorder"></span>
+                                    <ion-icon name="swap-vertical-outline" class="filterIcon" (click)="functionSortAndFilter('productsOne',1,lastProductsOneSortSelect,lastProductsTowFilterSelect)"></ion-icon>
+                                    <ion-icon name="funnel-outline" class="filterIcon" (click)="functionSortAndFilter('productsTow',1,lastProductsOneSortSelect,lastProductsTowFilterSelect)"></ion-icon>
+                                </ion-col>
+                            </ion-row>
+                        </ion-grid>
+                    </div>
+                    <div *ngIf="storesProductsByStoreSkeleton">
+                        <ion-grid class="gridDepartInformation">
+                            <ion-row>
+                                <ion-col class="textAlignStart textDepartInformation" size="6"><ion-skeleton-text animated style="height:15px;width: 80px;"></ion-skeleton-text></ion-col>
+                                <ion-col class="textAlignEnd textDepartInformation" size="6"><span class="buttonFilterBorder"></span><ion-icon name="swap-vertical-outline" class="filterIcon"></ion-icon></ion-col>
+                            </ion-row>
+                        </ion-grid>
+                    </div>
+            	  <div>
+                    <div class="padding5" *ngIf="storesCategories">
+                        <ion-slides [options]="{ slidesPerView: 'auto', zoom: false, grabCursor: true }">
+                            <ion-slide #slidesCatHome class="slidesData">
+                               <div *ngIf="!storesCategoriesSkeleton" class="textSlider" (click)="functionReturnProducts(0)">الكل</div>
+                               <div *ngIf="storesCategoriesSkeleton"><ion-skeleton-text animated class="textSkeletonSlider"></ion-skeleton-text></div>
+                            </ion-slide>
+                            <ion-slide #slidesCatHome *ngFor="let items of returnStoresCategoriesArray; let i=index"  class="slidesData">
+                               <div *ngIf="!storesCategoriesSkeleton" class="textSlider" (click)="functionReturnProducts(items.id)">{{items.title}}</div>
+                               <div *ngIf="storesCategoriesSkeleton"><ion-skeleton-text animated class="textSkeletonSlider"></ion-skeleton-text></div>
+                            </ion-slide>
+                        </ion-slides>
+                    </div>
+                    <div class="padding5" *ngFor="let items of returnProductsByStoreArray; let i=index">
+                        <div class="offerProductImage" *ngIf="items.offerPrice!=0 && items.special==1 && !storesProductsByStoreSkeleton">
+                            <ion-img src="../../assets/imgs/offerArGoold.png"></ion-img>
+                        </div>
+                        <div class="offerProductImage" *ngIf="items.offerPrice!=0 && !storesProductsByStoreSkeleton">
+                            <ion-img src="../../assets/imgs/offerAr.png"></ion-img>
+                        </div>
+                        <div class="productBox">
+                            <div class="productSubBox" (click)="functionProductsInformation(items.id,items.storeId)">
+                                <div *ngIf="!storesProductsByStoreSkeleton">
+                                    <div class="productImageDiv">
+                                        <img src="{{items.smallImage}}" class="productImage">
+                                    </div>
+                                    <div class="paddingBottom15">
+                                        <div class="productName">{{items.title}}</div>
+                                        <div class="productInformation">{{items.description}}</div>
+                                        <div class="productCatName" (click)="functionReturnProducts(items.storesCatId)">{{items.storesCatName}}</div>
+                                    </div>
+                                 </div>
+                                 <div *ngIf="storesProductsByStoreSkeleton">
+                                    <div class="productImageDiv">
+                                        <ion-skeleton-text animated class="productSkeletonImage"></ion-skeleton-text>
+                                    </div>
+                                    <div class="paddingBottom15">
+                                        <div class="productName"><ion-skeleton-text animated class="productSkeletonName"></ion-skeleton-text></div>
+                                        <div class="productInformation"><ion-skeleton-text animated class="productSkeletonInformation"></ion-skeleton-text></div>
+                                        <div class="productName"><ion-skeleton-text animated class="productSkeletonCat"></ion-skeleton-text></div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="border-top:2px solid"></div>
+                            <div>
+                                 <ion-grid>
+                                    <ion-row>
+                                        <ion-col class="textAlignStart textProductInformation" size="6">
+                                            <div *ngIf="!storesProductsByStoreSkeleton">
+                                                <div class="oldPrice" *ngIf="items.offerPrice!=0">{{items.price}}</div>
+                                                <div class="newPrice" *ngIf="items.offerPrice!=0">{{items.offerPrice}}</div>
+                                                <div class="newPrice" *ngIf="items.offerPrice==0">{{items.price}}</div>
+                                                <div class="typeMony">د.أ</div>
+                                            </div>
+                                            <div *ngIf="storesProductsByStoreSkeleton">
+                                                <ion-skeleton-text animated class="productSkeletonPrice"></ion-skeleton-text>
+                                            </div>
+                                        </ion-col>
+                                        <ion-col class="textAlignEnd textInformation" size="6">
+                                            <div *ngIf="!storesProductsByStoreSkeleton">
+                                                <ion-icon name="arrow-back-outline" class="productIcones" (click)="functionProductsDetails(items.id)"></ion-icon>
+                                            </div>
+                                            <div *ngIf="storesProductsByStoreSkeleton">
+                                                <ion-skeleton-text animated class="productSkeletonIcons"></ion-skeleton-text>
+                                            </div>
+                                        </ion-col>
+                                    </ion-row>
+                                </ion-grid>
+                            </div>
+                        </div>
+                     </div>
+                 </div>
+                 <div *ngIf="countOfProducts==0" class="divEmptyVal">
+                	<div>
+                    	<img src="../../assets/imgs/noProduct.png" style="width:100px; height:100px">
+                    </div>
+                    <div class="emptyFirstText">
+                    	يوجد مشكلة في عرض البيانات
+                    </div>
+                    <div class="emptyLastText">
+                    	لم يتم إضافة اي بيانات على هذه الشاشة حاليا
+                    </div>
+                 </div>
+            </ion-list>
+            <ion-list *ngSwitchCase="'3'" class="padding0" style="background-color:#ffffff">
+            	<div *ngIf="!storesBranchesByStoreSkeleton">
+                    <ion-grid class="gridDepartInformation">
+                        <ion-row>
+                            <ion-col class="textAlignStart textDepartInformation" style="direction:rtl" size="6">
+                            	الافرع: {{countOfBranches}}
+                            </ion-col>
+                            <ion-col class="textAlignEnd textDepartInformation" size="6"><span class="buttonFilterBorder"></span>
+                            	<ion-icon name="swap-vertical-outline" class="filterIcon" (click)="functionSortAndFilter('branches',3,lastBranchesFilterSelect)"></ion-icon>
+                            </ion-col>
+                        </ion-row>
+                    </ion-grid>
+                </div>
+                <div *ngIf="storesBranchesByStoreSkeleton">
+                    <ion-grid class="gridDepartInformation">
+                        <ion-row>
+                            <ion-col class="textAlignStart textDepartInformation" size="6"><ion-skeleton-text animated style="height:15px;width: 80px;"></ion-skeleton-text></ion-col>
+                            <ion-col class="textAlignEnd textDepartInformation" size="6"><span class="buttonFilterBorder"></span><ion-icon name="swap-vertical-outline" class="filterIcon"></ion-icon></ion-col>
+                        </ion-row>
+                    </ion-grid>
+                </div>
+				 <div>
+               	 	<div class="padding5" *ngFor="let items of returnBranchesByStoreArray; let i=index">
+                 	<div class="branchesBox">
+                    	<div class="branchesSubBox">
+                            <div class="branchesImageDiv">
+                                 <img src="{{items.image}}" class="branchesImage">
+                            </div>
+                            <div class="paddingBottom15">
+                            	<div *ngIf="!storesBranchesByStoreSkeleton">
+                                    <div class="branchesName">{{items.title}}</div>
+                                    <div class="branchesInformation">{{items.description}}</div>
+                            	</div>
+                                <div *ngIf="storesBranchesByStoreSkeleton">
+                                    <div class="branchesName"><ion-skeleton-text animated class="branchesSkeletonName"></ion-skeleton-text></div>
+                                    <div class="branchesInformation"><ion-skeleton-text animated class="branchesSkeletonInformation"></ion-skeleton-text></div>
+                                </div>
+                            </div>
+                        </div>
+                        <div style="border-top:2px solid"></div>
+                        <div class="height38">
+                        	 <ion-grid class="gridBranchesInformation">
+                                <ion-row>
+                                    <ion-col class="textAlignStart textBranchesInformation" size="12">
+                                        <div *ngIf="!storesBranchesByStoreSkeleton" class="location">{{items.locationName}}</div>
+                                       <div *ngIf="storesBranchesByStoreSkeleton"><ion-skeleton-text animated class="branchesSkeletonPrice"></ion-skeleton-text></div>
+                                    </ion-col>
+                                    <!--<ion-col class="textAlignEnd branchesIcones" size="6">
+                                    	<div *ngIf="!storesBranchesByStoreSkeleton">
+                                        	<ion-icon name="call" class="callBranchesIcon" (click)="callStoreNumber(items.mobile)"></ion-icon>
+                                        	<ion-icon name="location" class="locationBranchesIcon" (click)="getLocationMap(items.latlang)"></ion-icon>
+                                        </div>
+                                        <div *ngIf="storesBranchesByStoreSkeleton">
+                                        	<ion-skeleton-text animated class="branchesSkeletonIcons"></ion-skeleton-text>
+                                        </div>
+                                    </ion-col>-->
+                                </ion-row>
+                            </ion-grid>
+                        </div>
+                    </div>
+                 </div>
+                 </div>
+                  <div *ngIf="countOfBranches==0" class="divEmptyVal">
+                	<div>
+                    	<img src="../../assets/imgs/noStores.png" style="width:100px; height:100px">
+                    </div>
+                    <div class="emptyFirstText">
+                    	يوجد مشكلة في عرض البيانات
+                    </div>
+                    <div class="emptyLastText">
+                    	لم يتم إضافة اي بيانات على هذه الشاشة حاليا
+                    </div>
+                 </div>
+            </ion-list>
+        </div>
+        
+          <div>
+         
+        </div>
+        
+     </div>
+ </div>
+</ion-content>
+<ion-footer class="ion-no-border">
+<ion-toolbar class="footerToolbar">
+	<div class="width100">
+        <div class="menueClass" (click)="functionGoToHome()">
+        	<div><ion-icon name="home" slot="start"></ion-icon></div>
+            <div class="labelClass">الرئيسية</div>
+        </div>
+           <div class="menueClass" (click)="functionGoToStores()">
+        	<div><ion-icon name="storefront" slot="start"></ion-icon></div>
+            <div class="labelClass">العيادات</div>
+        </div>
+        
+        <div class="menueClass" (click)="functionOpenMenue()">
+        	<div><ion-icon name="list" slot="start"></ion-icon></div>
+            <div class="labelClass">قائمتي</div>
+        </div>
+    </div>
+</ion-toolbar>
+</ion-footer>

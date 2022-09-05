@@ -1,0 +1,27 @@
+ion-content{
+    --ion-background-color:#ffffff;
+	background-color:#ffffff;
+}
+.titleFontBold{
+	font-weight:bold;
+}
+.container {position: relative;text-align: center;color: white;}
+.container::after {display: block;position: relative;background-image: linear-gradient(to bottom, rgba(255, 255, 255, 0) 0, #000000 100%);margin-top: -150px;height: 150px;width: 100%;content: '';}	
+.centered {z-index:10000;display:block;position: absolute;bottom:10px;left: 50%;transform: translate(-50%, -50%)}
+.oneButton{
+	--background: linear-gradient(-90deg, #40a500, #3c8bb4) !important;
+	--color:var(--ion-color-primary-contrast) !important;
+	--border-radius: 30px;
+	--padding:0px;
+	height:50px;
+	min-width:140px;
+	width:30%;
+}
+.oneButton.activated{
+	--background:var(--ion-color-header);
+	padding:0px;
+}
+.swiper-pagination-fraction, .swiper-pagination-custom, .swiper-container-horizontal > .swiper-pagination-bullets{bottom:15px !important;}
+.buttonFirstDiv{position:relative;}
+.buttonLastDiv{position:relative;width: 100%;bottom: 65px;z-index: 100000000;text-align:center}
+ion-slide{width:100% !important}

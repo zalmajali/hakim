@@ -1,0 +1,54 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar class="headerToolbar">
+    <ion-title style="text-align:start"><img src="../../assets/imgs/def4.png" style="width:40px;border-radius:50px;text-align:start;"></ion-title>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+ <div class="contentDiv">
+ 	<div class="subContentDiv">
+        <div class="divTitle">تعديل معلومات حسابي</div>
+        <form style="display: contents;" (ngSubmit)="updateAccount()">
+        <div class="paddingBottom">
+            <ion-item lines="none" class="{{errorNumber}}">
+                <ion-input type="number" [(ngModel)]="number" [ngModelOptions]="{standalone: true}" placeholder="رقم الجوال" (ionInput)="checkNumber($event.target.value)"></ion-input><span class="class962">+962</span>
+            </ion-item>
+            <div class="errorTitle" *ngIf="isErrorNumber == 0">الرجاء إدخال رقم الجوال</div>
+        </div> 
+        <div class="paddingBottom">
+            <ion-item lines="none" class="{{errorFullName}}">
+                <ion-input type="text" [(ngModel)]="fullName" [ngModelOptions]="{standalone: true}" placeholder="الاسم الكامل" (ionInput)="checkFullName($event.target.value)"></ion-input>
+            </ion-item>
+            <div class="errorTitle" *ngIf="isErrorFullName == 0">الرجاء إدخال الاسم الكامل</div>
+        </div>
+        <div>
+          <div class="divButtonClass">
+            <ion-button class="oneButton fontSize15" (click)="updateAccount()" id="submit" disabled="{{!isdisabled}}"><span class="paddingBottom5">تعديل</span></ion-button>
+          </div>
+        </div>
+        <button style="visibility:hidden" id="submit" ion-button type="submit" ></button>
+        </form>
+        <div class="loadingData" *ngIf ="loadingShow == 1">
+            <img src="../../assets/imgs/loading.gif" class="imageLoading"><span>يرجى الانتظار ...</span>
+        </div>
+    </div>
+ </div>
+</ion-content>
+<ion-footer class="ion-no-border">
+<ion-toolbar class="footerToolbar">
+	<div class="width100">
+       <div class="menueClass" (click)="functionGoToHome()">
+        	<div><ion-icon name="home" slot="start"></ion-icon></div>
+            <div class="labelClass">الرئيسية</div>
+        </div>
+           <div class="menueClass" (click)="functionGoToStores()">
+        	<div><ion-icon name="storefront" slot="start"></ion-icon></div>
+            <div class="labelClass">العيادات</div>
+        </div>
+        
+        <div class="menueClass" (click)="functionOpenMenue()">
+        	<div><ion-icon name="list" slot="start"></ion-icon></div>
+            <div class="labelClass">قائمتي</div>
+        </div>
+    </div>
+</ion-toolbar>
+</ion-footer>

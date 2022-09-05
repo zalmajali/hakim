@@ -1,0 +1,453 @@
+.headerToolbar{
+--background: var(--ion-color-header);
+--border-width:0px;
+--padding-top:0px;
+--padding-bottom:3px;
+--padding-start:0px;
+--padding-end:0px;
+}
+ion-content{
+--background: var(--ion-color-header);
+}
+ion-item{
+   --background:var(--ion-color-header);
+   --ion-background-color:var(--ion-color-header);
+   --inner-padding-start:0px;
+}
+.searchButon{
+	color:var(--ion-color-wight);
+}
+.searchButon{
+	color:var(--ion-color-wight);
+}
+ion-button{
+	--background:var(--ion-color-searchButton);
+	--color:var(--ion-color-wight);
+   --border-radius: 25px;
+	height: 40px;
+    width: 60px;
+    margin-top: 4px;
+    margin-bottom: 5px;
+    margin-right: 10px;
+    margin-left: 2px;
+}
+ion-button:hover{
+	--background:var(--ion-color-searchButton);
+	--color:var(--ion-color-wight);
+    --border-radius: 25px;
+    height: 40px;
+    width: 60px;
+    margin-top: 4px;
+    margin-bottom: 5px;
+    margin-right: 10px;
+    margin-left: 2px;
+}
+.button{border-radius:30px}
+.ios ion-title {
+   position: inherit;
+   width:100%;
+   text-align:start;
+}
+ion-input{
+	--background:var(--ion-color-search);
+	border-radius:20px;
+	padding-right:10px !important;
+	color:#FFFFFF;
+	--placeholder-color:var(--ion-color-wight);
+	--placeholder-opacity:1;
+}
+.contentDiv{
+	width:100%;
+	height:100%;
+	background-color:#ffffff;
+	border-top-left-radius:15px;
+	border-top-right-radius:15px;
+	padding-top:5px;
+}
+.subContentDiv{
+	width:100%;
+	height:100%;
+	overflow-y:auto
+}
+/*content*/
+.catHomeSlides{
+	width:140px;
+	height:140px;
+	margin-left:2px;
+	margin-right:2px
+}
+/*specia*/
+.storesHomeSlides{
+	width:190px;
+	height:280px;
+	margin-left:2px;
+	margin-right:2px;
+    padding-top:40px;
+}
+.storesHomeProductSlides{
+	width:153px;
+	height:232px;
+	margin-left:2px;
+	margin-right:7px;
+}
+.specialHeaderImage{
+	width: 70px;
+	height: auto;
+	margin: auto;
+	position: fixed;
+	top: 0px;
+	border-radius:100%;
+	transform: initial !important;
+}
+.skeletonlHeaderImage{
+	width: 70px;
+	height: 70px;
+	margin: auto;
+	position: fixed;
+	top: 0px;
+	border-radius:100%;
+	margin-right:60px
+}
+.specialContentImage{
+	width: 180px;
+	height: 105px;
+}
+.specialContentProductImage{
+	width: 150px;
+	height: 150px;
+}
+.storesHomeCard{
+	background-color:var(--ion-color-wight);
+	width: 180px;
+    height: 222px;
+	margin: 0px;
+	border-radius:10px;
+	box-shadow:rgb(0 0 0 / 10%) 0px 3px 30px -2px, rgb(0 0 0 / 0%) 0px 2px 2px 0px, rgb(0 0 0 / 30%) 0px 1px 5px 0px;
+	border-radius: 10px;
+}
+.skeletonlContentImage{
+	margin-top:0px;
+	height:105px
+}
+.storesHomeProductCard{
+	background-color:var(--ion-color-wight);
+    width: 150px;
+    height: 210px;
+	margin: 0px;
+	border-radius:10px;
+	box-shadow:rgb(0 0 0 / 10%) 0px 3px 30px -2px, rgb(0 0 0 / 0%) 0px 2px 2px 0px, rgb(0 0 0 / 30%) 0px 1px 5px 0px;
+}
+
+/*specia*/
+/*fore*/
+.foreStoreHomeDivImage{
+	text-align: center;
+    position: absolute;
+    width: 100%;
+    top: 0px;
+}
+.foreStoreHeaderImage{
+	width: 35%;
+    height: auto;
+    margin: auto;
+    top: 0px;
+    border-radius: 100%;
+	transform: initial !important;
+}
+.foreStoreHomeCard{
+	background-color:var(--ion-color-wight);
+    width: 100%;
+    height: 100%;
+    position: initial;
+    margin: 0px;
+    border-radius: 10px;
+    box-shadow: rgb(0 0 0 / 10%) 0px 3px 30px -2px, rgb(0 0 0 / 0%) 0px 2px 2px 0px, rgb(0 0 0 / 30%) 0px 1px 5px 0px;
+    border-radius: 10px;
+}
+
+.skeletonlForHeaderImage{
+	width: 30%;
+    height: auto;
+    margin: auto;
+    top: 0px;
+    border-radius: 100%;
+}
+.skeletonlForContentImage{
+	margin-top:0px;
+    height:150px
+}
+.skeletonTextHomeLabel{
+	width:75%;
+	margin-right:15px;
+}
+.skeletonlContentProductImage{
+	margin-top:0px;
+	height:150px
+}
+/*fore*/
+/*cat*/
+.categoriesHomeSlides{
+    width: 180px;
+    height: 220px;
+    margin-left: 2px;
+    margin-right: 2px;
+}
+.categoriesHomeCard{
+	background-color:var(--ion-color-wight);
+    width: 170px;
+    height: 210px;
+    margin: 0px;
+    border-radius: 10px;
+    box-shadow: rgb(0 0 0 / 10%) 0px 3px 30px -2px, rgb(0 0 0 / 0%) 0px 2px 2px 0px, rgb(0 0 0 / 30%) 0px 1px 5px 0px;
+    border-radius: 10px;
+}
+.categoriesHomeDiv{
+	padding-top: 30px;
+	text-align:center;
+	width:100%;
+}
+.categoriesHomeLabel{
+	padding-top:15px;
+	font-size:15px;
+	color:var(--ion-color-menueColor);
+}
+.categoriesHomeImage{
+	width:100px;
+	height:100px; 
+	margin:auto
+}
+.skeletonCategoriesHome{
+	width:100px;
+	height:100px;
+	margin:auto;
+}
+.skeletonCategoriesHomeText{
+	width:100px;
+	margin:auto;
+	height:20px;
+}
+/*cat*/
+.catHomeCard{
+	background-color:var(--ion-color-wight);
+	width:130px;
+	height:130px;
+	margin: 0px;
+	border-radius:10px;
+	box-shadow:rgb(0 0 0 / 10%) 0px 3px 30px -2px, rgb(0 0 0 / 0%) 0px 2px 2px 0px, rgb(0 0 0 / 30%) 0px 1px 5px 0px;
+	border-radius: 10px;
+}
+.card{
+	width:100px;
+	height:100px;
+	margin: 0px;
+	border-radius:10px;
+	box-shadow:rgb(0 0 0 / 10%) 0px 3px 30px -2px, rgb(0 0 0 / 0%) 0px 2px 2px 0px, rgb(0 0 0 / 30%) 0px 1px 5px 0px;
+	border-radius: 10px;
+}
+.catHomeDiv{
+	padding-top: 25px;
+	text-align:center;
+	width:100%;
+}
+.catHomeImage{
+	width:64px;
+	height:64px; 
+	margin:auto
+}
+/*banners*/
+.bannersHomeImage{
+	width:100%;
+	height:auto; 
+	margin:auto
+}
+.bannersHomeImageSkeleton{
+	width:20%;
+	height:auto; 
+	margin:auto
+}
+/*banners*/
+/*offers*/
+.offersHomeImage{
+	width:100%;
+	height:auto; 
+	margin:auto
+}
+.offersHomeImageSkeleton{
+	width:20%;
+	height:auto; 
+	margin:auto
+}
+.offersHome{
+	position: relative
+}
+.offersHomeContent{
+	position: absolute;
+	font-size:5vw;
+	color:#ffffff;
+	top:5%;
+	text-align: center;
+	width: 100%;
+}
+/*offers*/
+.catHomeLabel{
+	padding-top:0px;
+	font-size:13px;
+	color:var(--ion-color-menueColor);
+}
+.catHomeTitleLabel{
+	font-size:15px;
+	color:var(--ion-color-menueColor);
+}
+.catHomeTitleLabelOffers{
+	font-size:15px;
+	padding-right:10px;
+	color:var(--ion-color-menueColor);
+}
+.catHomeMoreLabelOffers{
+	font-size:13px;
+	padding-left:10px;
+	color:var(--ion-color-formPlaseHolderColor);
+}
+.catHomeMoreLabel{
+	font-size:13px;
+	color:var(--ion-color-formPlaseHolderColor);
+}
+.textHomeLabel{
+	font-size:13px;
+	padding-top:3px;
+	color:#818181;
+	text-align: right;
+    padding-right: 13px;
+	height: 23px;
+}
+.textHomeName{
+	font-size:14px;
+	padding-top:3px;
+	color:var(--ion-color-searchButton);
+	text-align: right;
+    padding-right: 13px;
+	height: 23px;
+}
+.starLabel{
+	height: 47px;
+    font-size: 12px;
+    padding-top: 8px;
+    margin-top: 10px;
+    text-align: center;
+    color: var(--ion-color-searchButton);
+    background-color: #eeeef4;
+}
+.starLabelFor{
+	height: 35px;
+    font-size: 12px;
+    padding-top: 9px;
+    margin-top: 10px;
+    text-align: center;
+    color: var(--ion-color-searchButton);
+    background-color: #eeeef4;
+}
+.forestoresHomeSlides{
+	width:100%;
+	height:100%;
+	padding-bottom: 7%;
+    padding-top: 23%;
+}
+.foreStoretextHomeName{
+	font-size:14px;
+	padding-right:20px;
+	padding-top:4px;
+	color:var(--ion-color-searchButton);
+	height: 23px;
+}
+.foreStoretextHomeLabel{
+	font-size:13px;
+	padding-right:20px;
+	padding-top:4px;
+	color:#818181;
+}
+ion-button:hover{
+	--background:var(--ion-color-searchButton);
+	--color:var(--ion-color-wight);
+    --border-radius: 25px;
+    height: 40px;
+    width: 60px;
+    margin-top: 4px;
+    margin-bottom: 5px;
+    margin-right: 10px;
+    margin-left: 2px;
+}
+/*menu style*/
+ion-icon {
+  font-size: 20px;
+}
+ion-footer{
+	background: var(--ion-color-wight);
+}
+.footerToolbar{
+--background: var(--ion-color-footer);
+--border-width:0px;
+--padding-top:7px;
+--padding-bottom:0px;
+--padding-start:0px;
+--padding-end:0px;
+ border-top-left-radius:25px; 
+ border-top-right-radius:25px
+}
+.menueClass{
+	color:var(--ion-color-menueColor);
+	width:33.33%;
+	float:right;
+	text-align:center;
+	padding-bottom:5px;
+	cursor:pointer;
+}
+.menueClassActive{
+	border-bottom:3px solid
+}
+.labelClass{
+	margin-top:-5px;
+	font-size:13px !important;
+	padding-bottom:3px;
+}
+/*menu style*/
+/*starRate*/
+.star{
+	position:relative;
+	float:right;
+	width:25px;
+	height:17px;
+	margin-right:30px;
+	margin-left: 35px;
+}
+.starFore{
+	position:relative;
+	width:90px;
+	height:17px;
+	text-align: center;
+    display: inline-block;
+}
+.starcover{
+	display:flex;
+	float:right
+}
+.starBackRat{
+	background:#FFA500; 
+	height:17px;
+	direction:ltr; 
+	position:absolute; 
+	right:0px
+}	
+/*starRate*/
+.lockImage{
+	position:absolute;
+	left:0px;
+	z-index:100;
+	width:30px;
+	top:35px; 
+	right:75px
+}
+.lockImageLarg{
+	position: absolute;
+    width: 12%;
+    padding-top: 20%;
+}

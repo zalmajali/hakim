@@ -1,0 +1,74 @@
+ion-content{
+	direction:rtl;
+	 --background: transparent;
+}
+ion-icon {
+  font-size: 30px;
+  color:#ffffff
+}
+.contentDiv{
+	width: 100%;
+    height: 60%;
+    position: absolute;
+    top: 40%;
+	padding: 10px;
+}
+.subContentDiv{
+	width:100%;
+	height:85%;
+	overflow-y:auto;
+	border-radius:10px
+}
+ion-checkbox{
+	--background:#ffffff;
+	--background-checked:var(--ion-color-menueColor);
+	--border-color:var(--ion-color-searchButton);
+	--border-color-checked:var(--ion-color-menueColor);
+	--border-width: 2px;
+	--size: 20px;
+	--checkmark-width:3px;
+	margin:0px
+}
+ion-list{
+	background-color:#f1f1f1
+}
+ion-item{
+	--background:#ffffff;
+	--min-height: 42px;
+	--border-width: 0px 0px 2px 0px !important;
+}
+.lastItem{
+	border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+    --border-width: 0px !important;
+    --min-height: 10px;
+}
+ion-radio{
+	--color-checked:var(--ion-color-menueColor);
+}
+ion-label{
+    margin: 0px;
+    margin-bottom: 3px;
+    font-size: 14px !important;
+    font-weight: bold;
+    color: var(--ion-color-menueColor) !important;
+	padding-right:5px
+}
+.oneButton{
+	--background: linear-gradient(-90deg, #40a500, #3c8bb4) !important;
+	--color:var(--ion-color-primary-contrast) !important;
+	--border-radius: 30px;
+	--padding:0px;
+	height:40px;
+	min-width:85px;
+	width:20%;
+}
+.oneButton.activated{
+	--background:var(--ion-color-header);
+	padding:0px;
+}
+.divButtonClass{
+	text-align:center;
+	padding-top:10px;
+	padding-bottom:15px;
+}

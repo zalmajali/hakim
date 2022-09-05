@@ -1,0 +1,337 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar class="headerToolbar">
+    <ion-title style="text-align:start"><img src="../../assets/imgs/def4.png" style="width:40px;border-radius:50px;text-align:start;"></ion-title>
+     <ion-item lines="none">
+    <ion-input placeholder="بحث" (ionFocus)="openSearchPage()"></ion-input>
+    <ion-button class="button" (click)="openSearchPage()">
+    <ion-icon name="search" class="searchButon" slot="icon-only"></ion-icon>
+    </ion-button>
+  </ion-item>
+  </ion-toolbar>
+  <div class="largDiveSortAndFilter">
+    <ion-grid class="gridDepartInformation">
+        <ion-row>
+            <ion-col class="textAlignStart textDepartInformation" style="direction:rtl" size="5">
+                <ion-icon name="swap-vertical-outline" class="filterIcon" (click)="functionSortAndFilter('allStoresSorting',lastAllStoresSortSelect,regionsStoreSelected)"></ion-icon>
+                <span class="verticalAlignTop" style="padding-top:3px">العيادات : {{countOfAllValues}}</span>
+            </ion-col>
+            <ion-col class="textAlignCenter textFilterInformation" size="3" ><span class="buttonFilterBorder"></span><ion-icon name="funnel-outline" class="{{lightFilter}}" (click)="functionShowFilterInfo(selectedTypaOfOperationFilter)"></ion-icon><span class="{{filterLight}}" (click)="functionShowFilterInfo(selectedTypaOfOperationFilter)">فلترة</span></ion-col>
+            <ion-col class="textAlignCenter textFilterInformation" size="4" ><span class="buttonFilterBorder"></span>
+            	<ion-icon class="{{showTypeOfShowData}}" name="list-outline" (click)="changeTypeShow(1)"></ion-icon>
+            	<ion-icon name="grid-outline" class="{{showTypeOfShowDataTow}}" (click)="changeTypeShow(2)"></ion-icon>
+            </ion-col>
+        </ion-row>
+    </ion-grid>
+</div>
+</ion-header>
+<ion-content>
+  <ion-refresher slot="fixed" (ionRefresh)="refrechAllPage($event)">
+    <ion-refresher-content></ion-refresher-content>
+  </ion-refresher>
+   <div style="padding-right:3px; padding-left:3px">
+ 		<div class="showAllDivCat" #showAllDivCat>
+        <div class="showDivCat" #showDivCat>
+             <div style="padding:10px">
+                <ion-slides [options]="{ slidesPerView: 'auto', zoom: false, grabCursor: true }">
+                    <ion-slide #slidesCatHome *ngFor="let items of returnCategoriesArray;let i = index" class="catSlides">
+                        <ion-card class="catCard" (click)="functionGetSubCatAndSelectCat(items.id,i,items.operation)">
+                            <div *ngIf="!categoriesSkeleton">
+                                <div class="catDiv"><img src="{{items.image}}" class="catImage"></div>
+                                <div class="{{items.checked}}">{{items.title}}</div>
+                            </div>
+                            <div *ngIf="categoriesSkeleton">
+                                <div class="catDiv"><ion-skeleton-text animated class="catImage"></ion-skeleton-text></div>
+                                <div class="catLabel"><ion-skeleton-text animated class="skeletonTextLabel textAlignCenter"></ion-skeleton-text></div>
+                            </div>
+                        </ion-card>
+                    </ion-slide>
+                </ion-slides>
+            </div>
+             <div *ngIf="categories == 1">
+                <ion-slides [options]="{ slidesPerView: 'auto', zoom: false, grabCursor: true }">
+                    <ion-slide #slidesCatHome *ngFor="let items of returnSubCategoriesArray;let i = index"  class="slidesData">
+                       <div *ngIf="!subCategoriesSkeleton"class="{{items.checked}}" (click)="functionSelectSubCat(items.id,i,items.operation)">{{items.title}}</div>
+                       <div *ngIf="subCategoriesSkeleton"><ion-skeleton-text animated class="textSkeletonSlider"></ion-skeleton-text></div>
+                    </ion-slide>
+                </ion-slides>
+            </div>
+                <div class="divButtonClass" style="padding-top:15px">
+                    <span class="ragionButton" (click)="functionSortAndFilterRegion('allStores',lastAllStoresSortSelect,regionsStoreSelected)"> {{regionCount}} </span>
+                    <span class="filterButton" (click)="functionFeachDataFromServer(1)"> فلترة </span>
+                </div> 
+            </div>
+        </div>
+        <div *ngIf="stores!=0">
+            <div *ngIf="typeShow == 1 && stores!=0 && !storesStoreSkeleton">
+                <div class="padding5" style="position: relative;" *ngFor="let items of returnAllStoresArray;let i = index">
+                <div class="storesBox">
+                    <div class="storesSubBox">
+                        <div class="storesImageDiv" (click)="functionStoreInformation(items.id)">
+                             <img src="{{items.image}}" class="storesImage">
+                        </div>
+                        <div (click)="functionStoreInformation(items.id)">
+                            <div>
+                                <div class="storesName">{{items.title}}</div>
+                                <div class="storesCatLabel">
+                                    <div class="starLabel">
+                                        <div class="starFore">
+                                          <div class="starBackRat" [ngStyle]="{'width': items.rate}">
+                                             <div class="starcover">
+                                              <img src="../../assets/imgs/starImage.png" style="width:17px; height:17px;max-width:17px"/>
+                                              <img src="../../assets/imgs/starImage.png" style="width:17px; height:17px;max-width:17px"/>
+                                              <img src="../../assets/imgs/starImage.png" style="width:17px; height:17px;max-width:17px"/>
+                                              <img src="../../assets/imgs/starImage.png" style="width:17px; height:17px;max-width:17px"/>
+                                              <img src="../../assets/imgs/starImage.png" style="width:17px; height:17px;max-width:17px"/>
+                                             </div>
+                                          </div>
+                                        </div>
+                                        <span style="vertical-align:top;">({{items.countRate}})</span>
+                                    </div>
+                                </div> 
+                                <div class="storesCatLabel">{{items.catName}}</div>
+                                <div class="storesSubCatLabel">{{items.subCatName}}</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div style="border-top:2px solid"></div>
+                    <div style="height:35px">
+                         <ion-grid class="gridStoresInformation">
+                            <ion-row>
+                                <ion-col class="textAlignStart">
+                                <div>
+<!--                                    <ion-icon name="call" class="callIcon" (click)="callStoreNumber(items.mobile)"></ion-icon>
+                                    <ion-icon name="location" class="locationIcon" *ngIf="items.latlang" (click)="getLocationMap(items.latlang)"></ion-icon>
+-->                                    <ion-icon name="heart" class="hardNotFavIcon" *ngIf="showLinkFavourite==1 && items.checkFav==0" (click)="functionAddFavorites(items.id,i,items.realFollowers)"></ion-icon>
+                                    <ion-icon name="heart" class="hardFavIcon" *ngIf="showLinkFavourite==1 && items.checkFav==1" (click)="functionRemoveFavorites(items.id,i,items.realFollowers)"></ion-icon>
+                                </div>
+                                </ion-col>
+                                <ion-col class="textAlignStart">
+                                    <div>
+                                        <ion-icon name="thumbs-up-outline" class="hardNotLikeIcon" *ngIf="showLinkFavourite==1 && items.checkIsLike==0 && items.checkDisLike==0"(click)="functionAddLike(items.id,i,items.realCountLike)"></ion-icon>
+                                        <ion-icon name="thumbs-up-outline" class="hardLikeIcon" *ngIf="showLinkFavourite==1 && (items.checkIsLike==1 || items.checkDisLike==1)"></ion-icon>
+                                        <span class="countOfFlowers" style="padding-left:5px" *ngIf="showLinkFavourite==1">{{items.countLike}}</span>
+                                        <ion-icon name="thumbs-down-outline" class="hardNotLikeIcon" *ngIf="showLinkFavourite==1 && items.checkIsLike==0 && items.checkDisLike==0" (click)="functionAddDislike(items.id,i,items.realCountDisLike)"></ion-icon>
+                                        <ion-icon name="thumbs-down-outline" class="hardLikeIcon" *ngIf="showLinkFavourite==1 && (items.checkIsLike==1 || items.checkDisLike==1)"></ion-icon>
+                                        <span class="countOfFlowers" *ngIf="showLinkFavourite==1">{{items.countDisLike}}</span>
+                                    </div>
+                                </ion-col>
+                                <ion-col class="textAlignEnd" >
+                                    <div>
+                                        <div>
+                                            <span class="countOfFlowers">{{items.followers}}</span>
+                                            <ion-icon name="heart" class="hartIcon"></ion-icon>
+                                        </div>
+                                    </div>
+                                </ion-col>
+                            </ion-row>
+                        </ion-grid>
+                    </div>
+                </div>
+             </div>
+            </div>
+            <div *ngIf="typeShow == 1 && stores!=0 && storesStoreSkeleton">
+                <div class="padding5" style="position: relative;" *ngFor="let items of returnAllStoresArray;let i = index">
+                <div class="storesBox">
+                    <div class="storesSubBox">
+                         <div class="storesImageDiv">
+                             <img src="../../assets/imgs/def5.png" class="storesImage">
+                        </div>
+                        <div>
+                            <div>
+                                <div class="storesName"><ion-skeleton-text animated class="storesLargSkeletonName"></ion-skeleton-text></div>
+                                <div class="storesSubCatLabel"><ion-skeleton-text animated class="storesSkeletonName"></ion-skeleton-text></div>
+                                <div class="storesSubCatLabel"><ion-skeleton-text animated class="storesSkeletonName"></ion-skeleton-text></div>
+                                <div class="storesSubCatLabel"><ion-skeleton-text animated class="storesSkeletonName"></ion-skeleton-text></div>
+                            </div>
+                        </div>
+                        <div class="storesGridVal">
+                        <ion-grid class="gridStoresInformation">
+                            <ion-row>
+                                <ion-col class="textAlignStart padding0" size="6">
+                                   <div><ion-skeleton-text animated class="storesSkeletonGrid"></ion-skeleton-text></div>
+                                </ion-col>
+                                <ion-col class="textAlignEnd padding0" style="padding-left:4px" size="6">
+                                   <div><ion-skeleton-text animated class="storesSkeletonGrid"></ion-skeleton-text></div>
+                                </ion-col>
+                            </ion-row>
+                            <ion-row *ngIf="items.deliveryAnotherPrice!=0 && items.deliveryAnotherTime!=0">
+                                <ion-col class="textAlignStart padding0" size="6">
+                                   <div><ion-skeleton-text animated class="storesSkeletonGrid"></ion-skeleton-text></div>
+                                </ion-col>
+                                <ion-col class="textAlignEnd padding0" style="padding-left:4px" size="6">
+                                   <div><ion-skeleton-text animated class="storesSkeletonGrid"></ion-skeleton-text></div>
+                                </ion-col>
+                            </ion-row>
+                        </ion-grid>
+                    </div>
+                    </div>
+                    <div style="border-top:2px solid"></div>
+                    <div style="height:35px">
+                         <ion-grid class="gridStoresInformation">
+                            <ion-row>
+                                <ion-col class="textAlignStart">
+                                 <div><ion-skeleton-text animated class="storesSkeletonGrid"></ion-skeleton-text></div>
+                                </ion-col>
+                                <ion-col class="textAlignStart">
+                                    <div><ion-skeleton-text animated class="storesSkeletonGrid"></ion-skeleton-text></div>
+                                </ion-col>
+                                <ion-col class="textAlignEnd" >
+                                 <div><ion-skeleton-text animated class="storesSkeletonGrid"></ion-skeleton-text></div>
+                                </ion-col>
+                            </ion-row>
+                        </ion-grid>
+                    </div>
+                </div>
+             </div>
+            </div>
+            <div *ngIf="typeShow == 2 && stores!=0 && !storesStoreSkeleton">
+            <div class="padding5" style="position: relative;">
+             <ion-grid class="gridStoresInformation">
+                <ion-row>
+                    <ion-col class="textAlignCenter" size="6" *ngFor="let items of returnAllStoresArray;let i = index">
+                        <div class="storesBox">
+                            <div class="storesSubBox">
+                                 <div class="storesImageDivTow"  (click)="functionStoreInformation(items.id)">
+                                     <img src="{{items.image}}" class="storesImageTow">
+                                </div>
+                                <div class="storesNameTow"  (click)="functionStoreInformation(items.id)">{{items.title}}</div>
+                                <div class="storesCatLabelTow"  (click)="functionStoreInformation(items.id)">
+                                    <div class="starLabel">
+                                        <div class="starFore">
+                                          <div class="starBackRat" [ngStyle]="{'width': items.rate}">
+                                             <div class="starcover">
+                                              <img src="../../assets/imgs/starImage.png" style="width:17px; height:17px;max-width:17px"/>
+                                              <img src="../../assets/imgs/starImage.png" style="width:17px; height:17px;max-width:17px"/>
+                                              <img src="../../assets/imgs/starImage.png" style="width:17px; height:17px;max-width:17px"/>
+                                              <img src="../../assets/imgs/starImage.png" style="width:17px; height:17px;max-width:17px"/>
+                                              <img src="../../assets/imgs/starImage.png" style="width:17px; height:17px;max-width:17px"/>
+                                             </div>
+                                          </div>
+                                        </div>
+                                        <span style="vertical-align:top;"  (click)="functionStoreInformation(items.id)">({{items.countRate}})</span>
+                                    </div>
+                                </div>
+                                <div class="storesCatLabelTow"  (click)="functionStoreInformation(items.id)">{{items.catName}}</div>
+                                <div class="storesSubCatLabelTow"  (click)="functionStoreInformation(items.id)">{{items.subCatName}}</div>
+                                <div style="height:75px">
+                                     <ion-grid class="gridStoresInformation">
+                                        <ion-row>
+                                            <ion-col class="textAlignStart">
+                                                <div>
+                                                    <div>
+                                                        <ion-icon name="thumbs-up-outline" class="hardNotLikeIcon" *ngIf="showLinkFavourite==1 && items.checkIsLike==0 && items.checkDisLike==0" (click)="functionAddLike(items.id,i,items.realCountLike)"></ion-icon>
+                                                        <ion-icon name="thumbs-up-outline" class="hardLikeIcon" *ngIf="showLinkFavourite==1 && (items.checkIsLike==1 || items.checkDisLike==1)"></ion-icon>
+                                                        <span class="countOfFlowers" style="padding-left:5px"  *ngIf="showLinkFavourite==1">{{items.countLike}}</span>
+                                                    </div>
+                                                    <div>
+                                                        <ion-icon name="thumbs-down-outline" class="hardNotLikeIcon" *ngIf="showLinkFavourite==1 && items.checkIsLike==0 && items.checkDisLike==0" (click)="functionAddDislike(items.id,i,items.realCountDisLike)"></ion-icon>
+                                                        <ion-icon name="thumbs-down-outline" class="hardLikeIcon" *ngIf="showLinkFavourite==1 && (items.checkIsLike==1 || items.checkDisLike==1)"></ion-icon>
+                                                        <span class="countOfFlowers"  *ngIf="showLinkFavourite==1">{{items.countDisLike}}</span>
+                                                    </div>
+                                                </div>
+                                            </ion-col>
+                                            <ion-col class="textAlignEnd" >
+                                                <div>
+                                                    <div>
+                                                        <span class="countOfFlowers">{{items.followers}}</span>
+                                                        <ion-icon name="heart" class="hartIcon"></ion-icon>
+                                                    </div>
+                                                </div>
+                                            </ion-col>
+                                        </ion-row>
+                                    </ion-grid>
+                                </div>
+                            </div>
+                            <div style="border-top:2px solid"></div>
+                              <div style="height:40px">
+                                 <ion-grid class="gridStoresInformation">
+                                    <ion-row>
+                                        <ion-col class="textAlignEnd">
+                                            <div>
+<!--                                                <ion-icon name="call" class="callIcon" (click)="callStoreNumber(items.mobile)"></ion-icon>
+                                                <ion-icon name="location" class="locationIcon" *ngIf="items.latlang" (click)="getLocationMap(items.latlang)"></ion-icon>
+-->                                                <ion-icon name="heart" class="hardNotFavIcon" *ngIf="showLinkFavourite==1 && items.checkFav==0" (click)="functionAddFavorites(items.id,i,items.realFollowers)"></ion-icon>
+                                                <ion-icon name="heart" class="hardFavIcon" *ngIf="showLinkFavourite==1 && items.checkFav==1" (click)="functionRemoveFavorites(items.id,i,items.realFollowers)"></ion-icon>
+                                            </div>
+                                        </ion-col>
+                                    </ion-row>
+                                </ion-grid>
+                            </div>
+                        </div>
+                    </ion-col>
+                </ion-row>
+            </ion-grid>
+            </div>
+            </div>
+            <div *ngIf="typeShow == 2 && stores!=0 && storesStoreSkeleton">
+            <div class="padding5" style="position: relative;">
+             <ion-grid class="gridStoresInformation">
+                <ion-row>
+                    <ion-col class="textAlignCenter" size="6" *ngFor="let items of returnAllStoresArray;let i = index">
+                        <div class="storesBox">
+                            <div class="storesSubBox">
+                                 <div class="storesImageDivTow">
+                                     <img src="../../assets/imgs/def5.png" class="storesImageTow">
+                                </div>
+                                <div class="storesNameTowGride"><ion-skeleton-text animated class="storesLargSkeletonNameTow"></ion-skeleton-text></div>
+                                <div class="storesNameTowGride"><ion-skeleton-text animated class="storesSkeletonNameTow"></ion-skeleton-text></div>
+                                 <div class="storesNameTowGride"><ion-skeleton-text animated class="storesSkeletonNameTow"></ion-skeleton-text></div>
+                                <div class="storesNameTowGride"><ion-skeleton-text animated class="storesSkeletonNameTow"></ion-skeleton-text></div>
+                                <div class="storesNameTowGride"><ion-skeleton-text animated class="storesSkeletonNameTow"></ion-skeleton-text></div>
+                                <div class="storesNameTowGride"><ion-skeleton-text animated class="storesSkeletonNameTow"></ion-skeleton-text></div>
+                                <div class="storesNameTowGride"><ion-skeleton-text animated class="storesSkeletonNameTow"></ion-skeleton-text></div>
+                                <div class="storesNameTowGride"><ion-skeleton-text animated class="storesSkeletonNameTow"></ion-skeleton-text></div>
+                            </div>
+                            <div style="border-top:2px solid"></div>
+                              <div style="height:40px">
+                                 <ion-grid class="gridStoresInformation">
+                                    <ion-row>
+                                        <ion-col class="textAlignEnd">
+                                             <div><ion-skeleton-text animated class="storesSkeletonGrid"></ion-skeleton-text></div>
+                                        </ion-col>
+                                    </ion-row>
+                                </ion-grid>
+                            </div>
+                        </div>
+                    </ion-col>
+                </ion-row>
+            </ion-grid>
+            </div>
+            </div>
+        </div>
+         <div *ngIf="stores==0" class="divEmptyVal">
+        	<div>
+                <img src="../../assets/imgs/noStores.png" style="width:150px; height:150px">
+            </div>
+            <div class="emptyFirstText">
+                عذرا! لا يوجد متاجر حاليا
+            </div>
+            <div class="emptyLastText">
+                لم يتم إضافة اي بيانات على هذه الشاشة حاليا
+            </div>
+        </div>
+   </div>
+    <ion-infinite-scroll threshold="100px" (ionInfinite)="loadMoreData($event)">
+        <ion-infinite-scroll-content loadingSpinner="lines" loadingText="يتم سحب البيانات....">
+        </ion-infinite-scroll-content>
+    </ion-infinite-scroll>
+</ion-content>
+<ion-footer class="ion-no-border">
+<ion-toolbar class="footerToolbar">
+	<div class="width100">
+        <div class="menueClass" (click)="functionGoToHome()">
+        	<div><ion-icon name="home" slot="start"></ion-icon></div>
+            <div class="labelClass">الرئيسية</div>
+        </div>
+           <div class="menueClass menueClassActive">
+        	<div><ion-icon name="storefront" slot="start"></ion-icon></div>
+            <div class="labelClass">العيادات</div>
+        </div>
+      
+        <div class="menueClass" (click)="functionOpenMenue()">
+        	<div><ion-icon name="list" slot="start"></ion-icon></div>
+            <div class="labelClass">قائمتي</div>
+        </div>
+    </div>
+</ion-toolbar>
+</ion-footer>

@@ -1,0 +1,199 @@
+<ion-header class="ion-no-border">
+  <ion-toolbar class="headerToolbar">
+   <ion-title>
+         <ion-grid style="padding:0px">
+            <ion-row>
+                <ion-col class="textAlignStart padding0" size="6">
+                    <img src="../../assets/imgs/def4.png" style="width:40px;border-radius:50px;text-align:start;">
+                </ion-col>
+                <ion-col class="textAlignEnd padding0" size="6" (click)="backToStore()">
+                  <ion-img src="../../assets/imgs/back.png" class="width35" style="float:left"></ion-img>
+                </ion-col>
+            </ion-row>
+        </ion-grid>
+    </ion-title>
+    <ion-item lines="none" class="searchItem">
+        <ion-input placeholder="بحث" (ionFocus)="openSearchPage()"></ion-input>
+    <ion-button class="button" (click)="openSearchPage()">
+    <ion-icon name="search" class="searchButon" slot="icon-only"></ion-icon>
+    </ion-button>
+  </ion-item>
+  </ion-toolbar>
+</ion-header>
+<ion-content>
+ <div class="contentDiv">
+     <div class="subContentDiv">
+         <div>
+			<div *ngIf="showSlider == 0"><img src="{{returnOffersByStoreImage}}" style="min-height:170px"></div>
+            <ion-slides *ngIf="showSlider == 1 && !offersHomeSkeleton" pager="true" autoPlay="true" loop="true" (ionSlidesDidLoad)="slidesDidLoad()" (ionSlideDidChange)="slidesDidLoad()"  #slidesOffersHome >
+                <ion-slide>
+                    <div><img src="{{returnOffersByStoreImage}}" style="min-height:170px"></div>
+                </ion-slide>
+                 <ion-slide *ngIf="returnOffersByStoreImage1 !=0">
+                    <div><img src="{{returnOffersByStoreImage1}}" style="min-height:170px"></div>
+                </ion-slide>
+                 <ion-slide *ngIf="returnOffersByStoreImage2 !=0">
+                    <div><img src="{{returnOffersByStoreImage2}}" style="min-height:170px"></div>
+                </ion-slide>
+                 <ion-slide *ngIf="returnOffersByStoreImage3 !=0">
+                    <div><img src="{{returnOffersByStoreImage3}}" style="min-height:170px"></div>
+                </ion-slide>
+                 <ion-slide *ngIf="returnOffersByStoreImage4 !=0">
+                    <div><img src="{{returnOffersByStoreImage4}}" style="min-height:170px"></div>
+                </ion-slide>
+            </ion-slides> 
+         </div>
+         <div>
+            <ion-grid *ngIf="!offersSkeleton">
+                <ion-row>
+                    <ion-col class="textAlignStart textInformationNamePro" size="6">
+                    	{{returnOffersByStoreTitle}}
+                    </ion-col>
+                    <ion-col class="textAlignEnd textInformation" size="6">
+                        <div class="typeMony">د.أ</div>
+                        <div class="newPrice">{{realPrice}}</div>
+                    </ion-col>
+                </ion-row>
+                <ion-row>
+                    <ion-col class="textAlignStart textjustify">{{returnOffersByStoreDescription}}</ion-col>
+                </ion-row>
+                 <ion-row>
+                    <ion-col class="textAlignStart textInformation" size="6">
+                    	تاريخ بداية العرض {{returnOffersByStoreStartDate}}
+                    </ion-col>
+                    <ion-col class="textAlignEnd textInformation" size="6">
+                       تاريخ نهاية العرض {{returnOffersByStoreEndDate}}
+                    </ion-col>
+                </ion-row>
+                <ion-row>
+                    <ion-col class="textAlignStart textInformation" size="6">
+                    	عدد الايام المتبقية للعرض {{returnOffersByStoreDuration}}
+                    </ion-col>
+                </ion-row>
+                
+            </ion-grid>
+            <ion-grid *ngIf="offersSkeleton">
+            	<ion-row>
+                    <ion-col class="textAlignStart textInformation" size="6">
+                    	<ion-skeleton-text animated style="height:20px;"></ion-skeleton-text>
+                    </ion-col>
+                    <ion-col class="textAlignEnd textInformation" size="6">
+                       <ion-skeleton-text animated style="height:20px;"></ion-skeleton-text>
+                    </ion-col>
+                </ion-row>
+                <ion-row>
+                    <ion-col class="textAlignStart textjustify"><ion-skeleton-text animated style="height:100px"></ion-skeleton-text></ion-col>
+                </ion-row>
+                <ion-row>
+                    <ion-col class="textAlignStart textInformation" size="6">
+                    	<ion-skeleton-text animated style="height:20px;"></ion-skeleton-text>
+                    </ion-col>
+                    <ion-col class="textAlignEnd textInformation" size="6">
+                      <ion-skeleton-text animated style="height:20px;"></ion-skeleton-text>
+                    </ion-col>
+                </ion-row>
+                <ion-row>
+                    <ion-col class="textAlignStart textInformation" size="6">
+                    	<ion-skeleton-text animated style="height:20px;"></ion-skeleton-text>
+                    </ion-col>
+                </ion-row>
+                
+            </ion-grid>
+        </div>
+         <div>
+         	<ion-card *ngIf="!offersSkeleton" style="background-color:#ffffff;">
+              <ion-card-header>
+                <ion-card-subtitle class="textInIngredients">مكونات المنتج</ion-card-subtitle>
+              </ion-card-header>
+              <ion-card-content>
+                <ion-item class="cardItem" lines="none" *ngFor="let items of returnIngredientsArray; let i=index">
+                    <ion-label>{{items.title}}</ion-label>
+                    <ion-checkbox slot="start" value="{{items}}" mode="md" (ionChange)="getTheIngredients($event,i)"></ion-checkbox>
+                </ion-item>
+              </ion-card-content>
+            </ion-card>
+            <ion-card *ngIf="offersSkeleton" style="background-color:#ffffff;">
+              <ion-card-header>
+                <ion-skeleton-text animated style="height:20px;"></ion-skeleton-text>
+              </ion-card-header>
+               <ion-card-content>
+                <ion-item lines="none" class="cardItem" *ngFor="let items of returnIngredientsArray; let i=index">
+                    <ion-skeleton-text animated style="height:20px;"></ion-skeleton-text>
+                </ion-item>
+              </ion-card-content>
+            </ion-card>
+         </div>
+         <div *ngFor="let items of returnOptionsArray; let i=index">
+         	<ion-card *ngIf="!offersSkeleton" style="background-color:#ffffff;">
+              <ion-card-header>
+                <ion-card-subtitle class="textInIngredients">{{items.catName}}</ion-card-subtitle>
+              </ion-card-header>
+              <ion-card-content>
+              <ion-radio-group (ionChange)="getTheOptions($event,i)">
+                <ion-item class="cardItem" lines="none" *ngFor="let itemsOptions of items.options; let j=index">
+                    <ion-label>{{itemsOptions.title}}</ion-label>
+                    <ion-radio slot="start" id="radioPro" mode="ios" value="{{j}}"></ion-radio>
+                </ion-item>
+              </ion-radio-group>
+              </ion-card-content>
+            </ion-card>
+            <ion-card *ngIf="offersSkeleton" style="background-color:#ffffff;">
+              <ion-card-header>
+                <ion-skeleton-text animated style="height:20px;"></ion-skeleton-text>
+              </ion-card-header>
+               <ion-card-content>
+                <ion-item lines="none" class="cardItem" *ngFor="let itemsOptions of items.options; let j=index">
+                    <ion-skeleton-text animated style="height:20px;"></ion-skeleton-text>
+                </ion-item>
+              </ion-card-content>
+            </ion-card>
+         </div>  
+         <div *ngFor="let items of returnAdditionsArray; let i=index">
+         	<ion-card *ngIf="!offersSkeleton" style="background-color:#ffffff;">
+              <ion-card-header>
+                <ion-card-subtitle class="textInIngredients">{{items.catName}}</ion-card-subtitle>
+              </ion-card-header>
+              <ion-card-content>
+                <ion-item class="cardItem" lines="none" *ngFor="let itemsAdditions of items.additions; let j=index">
+                     <div class="divLabeladdishions">
+                    	<div class="divLabelLabeladdishions"> {{itemsAdditions.title}} </div>
+    					<div class="divLabelPriceaddishions">{{itemsAdditions.price}} د.أ</div>
+                     </div>
+                    <ion-checkbox slot="start" value="{{itemsAdditions.id}}" mode="md" (ionChange)="getTheAdditions($event,i,j)"></ion-checkbox>
+                </ion-item>
+              </ion-card-content>
+            </ion-card>
+            <ion-card *ngIf="offersSkeleton" style="background-color:#ffffff;">
+              <ion-card-header>
+                <ion-skeleton-text animated style="height:20px;"></ion-skeleton-text>
+              </ion-card-header>
+               <ion-card-content>
+                <ion-item lines="none" class="cardItem" *ngFor="let itemsAdditions of items.additions; let j=index">
+                    <ion-skeleton-text animated style="height:20px;"></ion-skeleton-text>
+                </ion-item>
+              </ion-card-content>
+            </ion-card>
+         </div>
+     </div>
+  </div>
+  	 
+</ion-content>
+<ion-footer class="ion-no-border">
+<ion-toolbar class="footerToolbar">
+    <div class="width100">
+        <div class="menueClass" (click)="functionGoToHome()">
+        	<div><ion-icon name="home" slot="start"></ion-icon></div>
+            <div class="labelClass">الرئيسية</div>
+        </div>
+           <div class="menueClass" (click)="functionGoToStores()">
+        	<div><ion-icon name="storefront" slot="start"></ion-icon></div>
+            <div class="labelClass">العيادات</div>
+        </div>
+       
+        <div class="menueClass" (click)="functionOpenMenue()">
+        	<div><ion-icon name="list" slot="start"></ion-icon></div>
+            <div class="labelClass">قائمتي</div>
+        </div>
+    </div>
+</ion-toolbar>
+</ion-footer>
